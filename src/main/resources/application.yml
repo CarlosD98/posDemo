@@ -1,0 +1,9 @@
+spring:
+    datasource:
+        username: springuser
+        password: ThePassword
+        url: jdbc:mysql://${MYSQL_HOST:localhost}:3306/db_demo
+    
+    jpa:
+        hibernate:
+            ddl-auto: update
