@@ -1,61 +1,42 @@
 package com.example.posdemo.models;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
+
 import org.joda.time.LocalDate;
 import org.joda.time.LocalTime;
 
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
+@Entity
+@Table(name = "Restaurantes")
 public class Restaurante {
-    private String mesa;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private int id;
+    @OneToOne
+    @JoinColumn(name = "venta_id")
+    private Venta venta;
+    @Column(name = "mesa")
+    private int mesa;
+    @Column(name = "personas")
     private int personas;
+    @Column(name = "fecha")
     private LocalDate fecha;
+    @Column(name = "hora_entrada")
     private LocalTime horaEntrada;
-    private LocalDate horaSalida;
+    @Column(name = "hora_salida")
+    private LocalTime horaSalida;
 
-    public String getMesa() {
-        return mesa;
-    }
-
-    public void setMesa(String mesa) {
-        this.mesa = mesa;
-    }
-
-    public int getPersonas() {
-        return personas;
-    }
-
-    public void setPersonas(int personas) {
-        this.personas = personas;
-    }
-
-    public LocalDate getFecha() {
-        return fecha;
-    }
-
-    public void setFecha(LocalDate fecha) {
-        this.fecha = fecha;
-    }
-
-    public LocalTime getHoraEntrada() {
-        return horaEntrada;
-    }
-
-    public void setHoraEntrada(LocalTime horaEntrada) {
-        this.horaEntrada = horaEntrada;
-    }
-
-    public LocalDate getHoraSalida() {
-        return horaSalida;
-    }
-
-    public void setHoraSalida(LocalDate horaSalida) {
-        this.horaSalida = horaSalida;
-    }
-
-    public Restaurante(String mesa, int personas, LocalDate fecha, LocalTime horaEntrada, LocalDate horaSalida) {
-        this.mesa = mesa;
-        this.personas = personas;
-        this.fecha = fecha;
-        this.horaEntrada = horaEntrada;
-        this.horaSalida = horaSalida;
-    }
 
 }
