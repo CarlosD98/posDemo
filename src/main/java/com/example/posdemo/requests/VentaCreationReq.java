@@ -1,16 +1,18 @@
 package com.example.posdemo.requests;
 
 import java.util.List;
-import java.util.Optional;
 
+import com.example.posdemo.models.Pago;
+import com.example.posdemo.models.Producto;
+import com.example.posdemo.models.Sucursal;
 
 import lombok.Data;
 
 @Data
 public class VentaCreationReq {
-    private List<ProductoCreationReq> productos;
-    private List<PagoCreationReq> pagos;
-    private Optional<SucursalCreationReq> sucursal;
-    private Optional<RestauranteCreationReq> restaurante;
+    private int caja;
+    private List<Producto> productos;
+    private List<Pago> pagos;
+    private Sucursal sucursal;
     
 }

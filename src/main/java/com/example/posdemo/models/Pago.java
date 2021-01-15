@@ -26,6 +26,7 @@ import lombok.Setter;
 public class Pago {
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @JsonManagedReference
     private int id;
     @Enumerated(EnumType.STRING)
     @Column(name = "tipo")

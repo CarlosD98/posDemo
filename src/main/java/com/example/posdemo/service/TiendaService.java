@@ -1,18 +1,19 @@
 package com.example.posdemo.service;
 
+import java.math.BigDecimal;
 import java.util.Optional;
 
 import javax.persistence.EntityNotFoundException;
 
+import com.example.posdemo.models.Pago;
 import com.example.posdemo.models.Producto;
 import com.example.posdemo.models.Venta;
-import com.example.posdemo.repositories.PagosRepository;
 import com.example.posdemo.repositories.ProductosRepository;
-import com.example.posdemo.repositories.RestaurantesRepository;
-import com.example.posdemo.repositories.SucursalesRepository;
 import com.example.posdemo.repositories.VentasRepository;
 import com.example.posdemo.requests.VentaCreationReq;
 
+import org.joda.time.LocalDate;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
@@ -20,10 +21,7 @@ import lombok.RequiredArgsConstructor;
 @Service
 @RequiredArgsConstructor
 public class TiendaService {
-    private final PagosRepository pagosRepository;
     private final ProductosRepository productosRepository;
-    private final RestaurantesRepository restaurantesRepository;
-    private final SucursalesRepository sucursalesRepository;
     private final VentasRepository ventasRepository;
 
 
@@ -43,11 +41,29 @@ public class TiendaService {
     }
 
     public Venta addVenta(VentaCreationReq req){
-        return new Venta();
+        Venta venta = new Venta();
+        BeanUtils.copyProperties(req, venta);
+        venta.setFecha(new LocalDate());
+        BigDecimal total = new BigDecimal(0);
+        BigDecimal cantidadTotal = new BigDecimal(0);
+        for (Producto i : venta.getProductos()) {
+            total.add(i.getPrecio().multiply(i.getCantidad()));
+            cantidadTotal.add(i.getCantidad());
+        }
+        venta.setTotal(total);
+        venta.setCantidadToatal(cantidadTotal.intValue());
+        BigDecimal iva16 = total.multiply(new BigDecimal(.16));
+        venta.setTotalIva16(iva16);
+        venta.setTotalNeto(total.add(iva16));
+        BigDecimal totalPagado = new BigDecimal(0);
+        for (Pago i : venta.getPagos()) {
+            totalPagado.add(i.getPagado());            
+        }
+        venta.setTotalPagado(totalPagado);
+
+        return ventasRepository.save(venta);
         
     }
-
-
 
     
 }

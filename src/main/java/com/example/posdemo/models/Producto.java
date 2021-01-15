@@ -12,6 +12,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -23,6 +24,7 @@ import lombok.Setter;
 public class Producto { 
     @ManyToOne( fetch = FetchType.EAGER)
     @JoinColumn(name = "venta_id")
+    @JsonManagedReference
     private Venta venta;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,8 +33,6 @@ public class Producto {
     private String sku;
     @Column(name = "nombre")
     private String nombre;
-    @Column(name = "nombre_completo")
-    private String nombreCompleto;
     @Column(name = "cantidad")
     private BigDecimal cantidad;
     @Column(name = "precio")
@@ -53,7 +53,6 @@ public class Producto {
     private BigDecimal totalNeto;
     @Column(name = "cancelacion_confirmacion")
     private String cancelacionConfirmacion;
-   
 
     
 }

@@ -3,16 +3,16 @@ package com.example.posdemo.models;
 import java.math.BigDecimal;
 import java.util.List;
 
+import javax.persistence.AttributeOverride;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
@@ -50,28 +50,26 @@ public class Venta {
     private BigDecimal totalNeto;
     @Column(name = "total_pagado")
     private BigDecimal totalPagado;
+    @JsonBackReference
     @OneToMany(
         mappedBy = "venta",
         cascade = CascadeType.ALL,
         orphanRemoval = true,
-        fetch = FetchType.EAGER
+        fetch = FetchType.LAZY
     )
-    @JsonBackReference
+    
     private List<Producto> productos;
+    @JsonBackReference 
     @OneToMany(
         mappedBy = "venta",
         cascade = CascadeType.ALL,
         orphanRemoval = true,
-        fetch = FetchType.EAGER
+        fetch = FetchType.LAZY
     )
-    @JsonBackReference
     private List<Pago> pagos;
-    @OneToOne
-    @JoinColumn(name = "sucursal_id")
+    @Embedded
+    @AttributeOverride(name = "nombre", column = @Column(name = "sucursal_nombre"))
     private Sucursal sucursal;
-    @OneToOne
-    @JoinColumn(name = "restaurante_id")
-    private Restaurante restaurante;
 
 
 }
